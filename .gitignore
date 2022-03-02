@@ -38,3 +38,5 @@ out/
 /gradle/
 /gradlew
 /settings.gradle
+/build.gradle
+/gradlew.bat
