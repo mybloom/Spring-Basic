@@ -12,21 +12,24 @@ class StatefulServiceTest {
 
 	@Test
 	void statefulServiceSingletone() {
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(TestConfig.class);
+		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+			TestConfig.class);
 
 		StatefulService statefulService1 = applicationContext.getBean(StatefulService.class);
 		StatefulService statefulService2 = applicationContext.getBean(StatefulService.class);
 
 		//ThreadA : A사용자 10,000원 주문
-		statefulService1.order("userA", 10000);
+		int userAPrice = statefulService1.order("userA", 10000);
 		//ThreadB : B사용자 20,000원 주문
-		statefulService1.order("userB", 20000);
+		int userBPrice = statefulService1.order("userB", 20000);
 
 		//ThreadA : 사용자A 주문 금액 조회
-		int price = statefulService1.getPrice();
-		System.out.println("price = " + price);
+		System.out.println("price1 = " + userAPrice);
+ 		//ThreadB : 사용자B 주문 금액 조회
+		System.out.println("price2 = " + userBPrice);
 
-		Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000);
+		Assertions.assertThat(userAPrice).isEqualTo(10000);
+		Assertions.assertThat(userBPrice).isEqualTo(20000);
 	}
 
 	static class TestConfig {
