@@ -1,12 +1,9 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +14,7 @@ public class OrderServiceImpl implements OrderService{
 
     //생성자 주입은 객체 생성 시, 의존관계 주입도 같이 일어난다.
     public OrderServiceImpl(MemberRepository memberRepository,
-        @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
