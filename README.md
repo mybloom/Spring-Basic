@@ -57,6 +57,12 @@
    - 장점: 외부 라이브러리에 적용 가능! 
    - destroyMethod는 inferred(추론)으로 등록되어 있어서 지정하지 않아도 "close" 또는 "shutdown"이 자동호출 된다
 3. @PostConstruct, @PreDestory 애노테이션 지원
+   - `자바`에서 지원하는 애노테이션 : javax 패키지
+   - 스프링에 종속적인 기술이 아니라서 다른 컨테이너에서도 동작한다.
+   - @ComponentScan 과도 잘 동작한다.
+     - import javax.annotation.PostConstruct;
+     - import javax.annotation.PreDestroy;
+   - 단점 : 외부 라이브러리에서 사용할 수 없다.
 
 > 스프링 빈의 이벤트 라이프사이클
 - 스프링 컨테이너 생성 -> 스프링 빈 생성 -> 의존관계 주입 -> 초기화 콜백 -> 사용 -> 소멸전 콜백(싱글톤의 경우) -> 스프링 종료
