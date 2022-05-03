@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LogDemoController {
 
 	private final LogDemoService logDemoService;
-	private final ObjectProvider<MyLogger> myLoggerProvider; //DL이 주입된다.
+	private final MyLogger myLogger; //DL이 주입된다.
 
 	@RequestMapping("log-demo")
 	@ResponseBody
 	public String logDemo(HttpServletRequest request) {//자바에서 제공하는 표준 서블릿 규약.
 		String requestUrl = request.getRequestURL().toString();
-		MyLogger myLogger = myLoggerProvider.getObject();
 		myLogger.setRequestURL(requestUrl);
 
 		myLogger.log("controller test");

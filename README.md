@@ -167,3 +167,18 @@ Caused by: java.lang.IllegalStateException: No thread-bound request found: Are y
 	... 39 common frames omitted
 ```
 
+> 스코프와 프록시
+- 프록시 방식을 이용해서 ObjectProvide를 작성하는 것을 삭제할 수 있게 한다.
+- request 스코프인 빈에 아래를 추가해준다.
+`@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)`
+- CGLIB라는 라이브러리로 내 클래스를 상속받은 가짜 프록시 객체를 만들어서 주입한다.
+- 가짜 프록시 객체는 요청이 오면 그 때 내부에서 진짜 빈을 요청하는 위임 로직이 들어있다.
+- 프록시 : 앞에서 요청을 받아서 대신 처리해주는 것
+
+> 핵심 아이디어
+- Provider이던 프록시이던, 진짜 객체 조회를 꼭 필요한 시점까지 `지연`처리하는 점. 
+- 애노테이션 설정 변경만으로 원본 객체를 프록시 객체르 대체할 수 있다. 이것이 바로 `다형성과 DI컨테이너`가 가진 큰 강점이다!
+
+> 주의점
+- 특별한 scope는 특정한 곳에서 최소한으로 사용한다.
+- 마치 싱글톤처럼 동작하게 만들 수 있지만, 다르게 동작하므로 주의해서 사용한다.
