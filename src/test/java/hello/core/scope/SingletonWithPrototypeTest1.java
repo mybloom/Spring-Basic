@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
@@ -44,11 +45,11 @@ public class SingletonWithPrototypeTest1 {
 	@Scope("singleton")
 	static class ClientBean {
 		@Autowired
-		private ObjectFactory<PrototypeBean> prototypeBeanProvider;
+		private Provider<PrototypeBean> prototypeBeanProvider;
 
 		public int logic() {
 			//getObject() : 스프링 컨테이너에서 메서드 호출당시 스프링빈을 찾아서 반환해준다.
-			PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+			PrototypeBean prototypeBean = prototypeBeanProvider.get();
 			prototypeBean.addCount();
 			return prototypeBean.getCount();
 		}
