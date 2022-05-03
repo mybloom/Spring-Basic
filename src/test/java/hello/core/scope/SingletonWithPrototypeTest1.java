@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -36,25 +37,21 @@ public class SingletonWithPrototypeTest1 {
 
 		ClientBean clientBean2 = applicationContext.getBean(ClientBean.class);
 		int count2 = clientBean2.logic();
-		assertThat(count2).isEqualTo(2);
+		assertThat(count2).isEqualTo(1);
 	}
 
 	@Scope("singleton")
 	static class ClientBean {
-		private final PrototypeBean prototypeBean;
-
 		@Autowired
-		public ClientBean(PrototypeBean prototypeBean) {
-			this.prototypeBean = prototypeBean;
-		}
+		private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
 		public int logic() {
+			//getObject() : 스프링 컨테이너에서 메서드 호출당시 스프링빈을 찾아서 반환해준다.
+			PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
 			prototypeBean.addCount();
 			return prototypeBean.getCount();
 		}
-
 	}
-
 
 	@Scope("prototype")
 	static class PrototypeBean {
@@ -71,6 +68,7 @@ public class SingletonWithPrototypeTest1 {
 		@PostConstruct
 		public void init() {
 			System.out.println("PrototypeBean.init");
+			System.out.println(this.toString());
 		}
 
 		@PreDestroy
