@@ -89,5 +89,6 @@
 - 프로토타입 스코프 빈을 새로 생성하면서 사용하고 싶다면 즉, 정말 의도한대로 프로토타입 빈을 사용하고 싶다면 다른 방법을 사용해야 한다.
 
 > Dependency Lookup
-- ObjectFactory, ObjectProvider
+- ObjectFactory : getObject()만 제공
+- ObjectProvider: 나중에 나온 것으로 편의기능 추가적으로 더 제공
 
